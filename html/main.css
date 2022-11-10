@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+    background: linear-gradient(to bottom, #ffffff 0%, #f0f0f0 40%);
 }
 
 input {
@@ -8,6 +8,8 @@ input {
     border: none;
     border-bottom: 1px solid #ccc;
     width: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+
 }
 
 button {
@@ -23,4 +25,14 @@ button {
     cursor: pointer;
     white-space: nowrap;
     width: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    display: table;
+    background-color: white;
 }
