@@ -11,12 +11,13 @@ const wss = new WebSocketServer({ port: 8080 });
 
 wss.on('connection', function connection(ws) {
   logger.add('Client connected.');
-  wss.broadcast(JSON.stringify({ message: "User connected", time: new Date().getTime()}));
+  wss.broadcast(JSON.stringify({ message: "User connected", time: new Date().getTime() }));
   db.get().forEach(function (data) {
     ws.send(JSON.stringify({ message: data.message, time: data.time }));
   });
   ws.on('message', function message(_data) {
-    wss.broadcast(JSON.stringify({ message: _data.toString(), time: new Date().getTime()}));
+    if (_data.toString().length < 3) { return; }
+    wss.broadcast(JSON.stringify({ message: _data.toString(), time: new Date().getTime() }));
     logger.add(_data.toString());
     db.add(UUID(), _data.toString());
   });
