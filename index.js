@@ -1,4 +1,4 @@
-const { WebSocketServer } =  require('ws');
+const { WebSocketServer } = require('ws');
 const log = require('./modules/log');
 const DB = require('./modules/db');
 const UUID = require('./modules/uuid');
@@ -11,12 +11,12 @@ const wss = new WebSocketServer({ port: 8080 });
 
 wss.on('connection', function connection(ws) {
   logger.add('Client connected.');
-  wss.broadcast("User connected.");
+  wss.broadcast(JSON.stringify({ message: "User connected", time: new Date().getTime()}));
   db.get().forEach(function (data) {
-    ws.send(data.message);
+    ws.send(JSON.stringify({ message: data.message, time: data.time }));
   });
   ws.on('message', function message(_data) {
-    wss.broadcast(_data.toString());
+    wss.broadcast(JSON.stringify({ message: _data.toString(), time: new Date().getTime()}));
     logger.add(_data.toString());
     db.add(UUID(), _data.toString());
   });
@@ -26,6 +26,6 @@ wss.on('connection', function connection(ws) {
 
 wss.broadcast = function broadcast(msg) {
   wss.clients.forEach(function each(client) {
-      client.send(msg);
-   });
+    client.send(msg);
+  });
 };

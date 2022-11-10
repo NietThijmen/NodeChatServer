@@ -9,7 +9,8 @@ class DB {
     add(id, message) {
         let data = {
             id: id,
-            message: message
+            message: message,
+            time: new Date().getTime()
         };
 
         console.table(data);
