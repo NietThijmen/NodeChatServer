@@ -1,14 +1,17 @@
+// imports
 const { WebSocketServer } = require('ws');
 const log = require('./modules/log');
 const DB = require('./modules/db');
 const UUID = require('./modules/uuid');
+
+// initialization
 const logger = new log();
 logger.clear();
 const db = new DB();
 const wss = new WebSocketServer({ port: 8080 });
 
 
-
+// server
 wss.on('connection', function connection(ws) {
   logger.add('Client connected.');
   wss.broadcast(JSON.stringify({ message: "User connected", time: new Date().getTime() }));
@@ -24,7 +27,8 @@ wss.on('connection', function connection(ws) {
 });
 
 
-
+// Custom functions for the web socket server
+// broadcast message to all clients
 wss.broadcast = function broadcast(msg) {
   wss.clients.forEach(function each(client) {
     client.send(msg);
